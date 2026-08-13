@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets';
-import portrait from '../assets/photos/mary-ann-portrait.png';
+// Transparent cutout generated from the original portrait via Apple Vision
+// subject segmentation (scripts/ — original stays in the source folders).
+import portrait from '../assets/photos/mary-ann-portrait-cutout.png';
 ---
 
 <section class="relative overflow-hidden">
@@ -21,8 +23,47 @@ import portrait from '../assets/photos/mary-ann-portrait.png';
       </div>
     </div>
     <div class="relative mx-auto w-64 md:w-full md:max-w-sm">
-      <div class="absolute inset-x-4 bottom-0 top-10 rounded-t-full bg-sand" aria-hidden="true"></div>
-      <Image src={portrait} alt="Portrait of Mary Ann Ordinario" widths={[320, 480, 640]} sizes="(min-width: 768px) 24rem, 16rem" class="relative" />
+      <!-- Scalloped storybook cloud, like cut construction paper -->
+      <svg class="absolute -inset-x-6 bottom-0 top-14" viewBox="0 0 200 200" preserveAspectRatio="none" aria-hidden="true">
+        <path
+          class="fill-sand"
+          d="M182,100 A23,23 0 0 1 171,141 A23,23 0 0 1 141,171 A23,23 0 0 1 100,182 A23,23 0 0 1 59,171 A23,23 0 0 1 29,141 A23,23 0 0 1 18,100 A23,23 0 0 1 29,59 A23,23 0 0 1 59,29 A23,23 0 0 1 100,18 A23,23 0 0 1 141,29 A23,23 0 0 1 171,59 Z"
+        />
+      </svg>
+      <!-- Dotted story-trail arcing overhead, like a journey line in a picture book -->
+      <svg class="absolute -inset-3 text-terracotta/50" viewBox="0 0 200 200" fill="none" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M14 146 A 92 92 0 1 1 186 146" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.2 7" />
+      </svg>
+      <Image src={portrait} alt="Portrait of Mary Ann Ordinario" widths={[320, 480, 640]} sizes="(min-width: 768px) 24rem, 16rem" class="sticker relative" />
+      <!-- Tiny drawings from her own award-winning books -->
+      <!-- A Whale in Prison -->
+      <svg class="absolute -left-10 bottom-6 w-20 -rotate-6 text-terracotta" viewBox="0 0 44 22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 16 C 3 8, 11 3, 19 4 C 27 5, 31 10, 30 15 C 24 19, 10 20, 4 16 Z" />
+        <path d="M30 12 C 33 10, 35 7, 35 4 C 37 8, 40 10, 43 10 C 40 13, 35 14, 31 15" />
+        <path d="M15 13 C 17 15, 20 15, 22 13" />
+        <circle cx="10" cy="9" r="1" fill="currentColor" stroke="none" />
+      </svg>
+      <!-- The Pencil Who Would Not Write -->
+      <svg class="absolute -right-6 top-10 w-10 rotate-12 text-terracotta" viewBox="0 0 28 36" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 4 L 26 10 L 12 28 L 5 31 L 6 24 Z" />
+        <path d="M17 8 L 23 13" />
+      </svg>
+      <!-- Gold star -->
+      <svg class="absolute -left-3 top-3 w-8 text-terracotta" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 1 C 13 8, 16 11, 23 12 C 16 13, 13 16, 12 23 C 11 16, 8 13, 1 12 C 8 11, 11 8, 12 1 Z" />
+      </svg>
+      <svg class="absolute right-4 -top-1 w-4 text-terracotta/60" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 1 C 13 8, 16 11, 23 12 C 16 13, 13 16, 12 23 C 11 16, 8 13, 1 12 C 8 11, 11 8, 12 1 Z" />
+      </svg>
     </div>
   </div>
 </section>
+
+<style>
+  /* Sticker-style edge around the transparent cutout: stacked drop-shadows
+     trace the alpha silhouette in ivory, like a die-cut sticker. */
+  .sticker {
+    filter: drop-shadow(3px 0 0 var(--color-ivory)) drop-shadow(-3px 0 0 var(--color-ivory))
+      drop-shadow(0 3px 0 var(--color-ivory)) drop-shadow(0 -3px 0 var(--color-ivory));
+  }
+</style>
