@@ -17,7 +17,10 @@ import portrait from '../assets/photos/mary-ann-portrait-cutout.png';
         Stories that inspire children to appreciate culture, peace, diversity, environmental
         conservation, and Filipino values — read in many languages around the world.
       </p>
-      <div class="mt-8 flex flex-wrap gap-4">
+      <!-- Desktop CTAs. On mobile the hero reads title → portrait → centered
+           CTAs instead, so this pair is duplicated below the image — keep both
+           instances in sync. -->
+      <div class="mt-8 hidden flex-wrap gap-4 md:flex">
         <a href="/books" class="rounded-full bg-terracotta-dark px-7 py-3 font-semibold text-cream transition hover:bg-terracotta">Explore Books</a>
         <a href="#contact" class="rounded-full border border-ink/20 px-7 py-3 font-semibold transition hover:border-terracotta hover:text-terracotta">Get in Touch</a>
       </div>
@@ -55,6 +58,12 @@ import portrait from '../assets/photos/mary-ann-portrait-cutout.png';
       <svg class="absolute right-4 -top-1 w-4 text-terracotta/60" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M12 1 C 13 8, 16 11, 23 12 C 16 13, 13 16, 12 23 C 11 16, 8 13, 1 12 C 8 11, 11 8, 12 1 Z" />
       </svg>
+    </div>
+    <!-- Mobile CTAs: centered under the portrait so the hero closes on the
+         action. Duplicate of the desktop pair above — keep in sync. -->
+    <div class="flex flex-wrap justify-center gap-4 md:hidden">
+      <a href="/books" class="rounded-full bg-terracotta-dark px-7 py-3 font-semibold text-cream transition hover:bg-terracotta">Explore Books</a>
+      <a href="#contact" class="rounded-full border border-ink/20 px-7 py-3 font-semibold transition hover:border-terracotta hover:text-terracotta">Get in Touch</a>
     </div>
   </div>
 </section>
