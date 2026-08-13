@@ -15,7 +15,7 @@ Out of scope (explicit decisions): school promotion section, e-commerce/purchase
 Two pages, static:
 
 - **`/` Home** — hero, stats band, new releases 2026, about, award-winning books, books teaser, news & press, contact/footer.
-- **`/books` Books** — full catalog of all 62 titles with filters and search.
+- **`/books` Books** — full catalog of all 63+ titles with filters and search.
 
 Sticky top nav: Home · About · Books · Awards · News · Contact (anchor links on home; Books routes to `/books`).
 
@@ -26,13 +26,13 @@ Sticky top nav: Home · About · Books · Awards · News · Contact (anchor link
 3. **New Releases 2026** — horizontal scroll row / subtle carousel of the 12 new covers.
 4. **About** — two-column: second photo + condensed bio from `Mary Ann Ordinario.docx`; mentions founding ABC Educational Development Center and NBDB board membership.
 5. **Award-Winning Books** — grid of 17 award-winning covers, each captioned with its award (e.g., *The Crying Trees — AFCC KidsTime Grand Prize, Singapore*). Highlight card on top for the 2026 UNESCO/IBBY selection of *I Love Tnalak* (launched at 40th IBBY World Congress, Ottawa).
-6. **Books teaser** — one row of covers + "View All 62 Books" button → `/books`.
+6. **Books teaser** — one row of covers + "View All Books" button → `/books`.
 7. **News & Press** — 3–4 cards, built to grow: IBBY World Congress launch (Ottawa, Aug 2026), CMMA Special Citation for *The Brave Little Stump* (Nov 2025), Severino Reyes Honor List 2025 (*Kamatis Inis*, *A Whale in Prison*), Cardinal Sin Best Children's Book 2024.
 8. **Contact / Footer** — email CTA (abcedcchildrensbooks@gmail.com), footer nav + credit.
 
 ### Books page
 
-- Header: "Books" + one-liner ("62 stories celebrating Filipino culture, values, and the environment").
+- Header: "Books" + one-liner ("Stories celebrating Filipino culture, values, and the environment").
 - **Filter tabs:** All · Award Winners · New Releases 2026, plus instant client-side text search.
 - **Grid:** responsive, 2 cols mobile → 4–5 desktop. Card = optimized cover, title, award badge chip when applicable.
 - **Detail view:** clicking a card opens a modal/expanding panel — full cover, awards, translations. No per-book pages (no synopses available yet); data model supports upgrading cards to detail pages later without restructuring.
@@ -41,7 +41,7 @@ Sticky top nav: Home · About · Books · Awards · News · Contact (anchor link
 
 - Single Astro content collection: `src/content/books/` backed by `books.json`.
 - Fields per book: `title`, `slug`, `cover`, `category` (`regular` | `award-winning` | `new-release`), `awards[]` ({name, year, org}), `translations[]`, `featured` (bool).
-- Data sourced from `Book Titles.docx` (62 titles, incl. 12 new for 2026) and `Mary Ann Ordinario.docx` (award mapping per book).
+- Data sourced from `Book Titles.docx` (63 titles: 51 catalogued + 12 new for 2026) and `Mary Ann Ordinario.docx` (award mapping per book). Titles found in cover folders but absent from the titles list (e.g., *Somebody is Eating the Chocolate Hills*, an RCBC award finalist) are included and flagged for client confirmation.
 - All home sections and the books page query this one collection — single source of truth. Adding a book later = one JSON entry + one image file.
 - Covers copied to `src/assets/covers/`, renamed to clean slugs (e.g., `the-crying-trees.jpg`). Source folders remain untouched.
 
@@ -81,6 +81,6 @@ Direction: warm cream + terracotta, editorial and elegant (inspirations `Designs
 ## 7. Verification
 
 - `astro build` passes clean.
-- Manual pass: all 62 entries in `books.json` reconciled against both .docx lists; 17 award books carry correct award captions.
+- Manual pass: all entries in `books.json` (63+) reconciled against both .docx lists and the three cover folders; 17 award books carry correct award captions.
 - Lighthouse: 90+ across Performance/Accessibility/Best Practices/SEO on both pages.
 - Manual responsive check at 375px / 768px / 1440px.
