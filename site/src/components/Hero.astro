@@ -37,7 +37,9 @@ import portrait from '../assets/photos/mary-ann-portrait-cutout.png';
       <svg class="absolute -inset-3 text-terracotta/50" viewBox="0 0 200 200" fill="none" preserveAspectRatio="none" aria-hidden="true">
         <path d="M14 146 A 92 92 0 1 1 186 146" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.2 7" />
       </svg>
-      <Image src={portrait} alt="Portrait of Mary Ann Ordinario" widths={[320, 480, 640]} sizes="(min-width: 768px) 24rem, 16rem" class="sticker relative" />
+      <!-- The LCP image: eager + high priority, unlike every book cover below
+           the fold, which keeps Astro's lazy default. -->
+      <Image src={portrait} alt="Portrait of Mary Ann Ordinario" widths={[320, 480, 640]} sizes="(min-width: 768px) 24rem, 16rem" class="sticker relative" loading="eager" fetchpriority="high" />
       <!-- Tiny drawings from her own award-winning books -->
       <!-- A Whale in Prison -->
       <svg class="absolute -left-10 bottom-6 w-20 -rotate-6 text-terracotta" viewBox="0 0 44 22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
