@@ -1,0 +1,45 @@
+---
+/**
+ * Scalloped construction-paper edge for section seams. Renders a strip of
+ * semicircular bumps that reads as the section's paper edge layered over its
+ * neighbor. The fill color inherits from a `fill-*` utility on the class.
+ *
+ * Place inside a `relative` section:
+ *   top edge    → class="absolute inset-x-0 bottom-full h-4 fill-<section-bg>"
+ *   bottom edge → class="absolute inset-x-0 top-full h-4 rotate-180 fill-<section-bg>"
+ */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+// Bump geometry is computed once at build time. preserveAspectRatio="none"
+// stretches the strip to full width; the slight widening of bumps on large
+// screens is invisible at this scale. The 1px skirt below the baseline
+// prevents an antialiasing hairline at the seam.
+const width = 1440;
+const bumps = 36;
+const r = width / bumps / 2;
+const height = r + 1;
+let d = `M0 ${height} L0 ${r}`;
+for (let i = 0; i < bumps; i++) {
+  d += ` A ${r} ${r} 0 0 1 ${(i + 1) * 2 * r} ${r}`;
+}
+d += ` L${width} ${height} Z`;
+---
+
+<svg
+  class={className}
+  viewBox={`0 0 ${width} ${height}`}
+  preserveAspectRatio="none"
+  aria-hidden="true"
+>
+  <path d={d} />
+</svg>
+
+<style>
+  svg {
+    display: block;
+    width: 100%;
+  }
+</style>

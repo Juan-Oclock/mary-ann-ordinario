@@ -20,12 +20,29 @@ const tnalakCover = getCover(tnalak.data.cover);
       <h2 class="font-display mt-3 text-3xl md:text-4xl">Award-Winning Books</h2>
     </div>
 
-    <div class="reveal mt-12 grid items-center gap-8 rounded-2xl bg-cream p-8 ring-1 ring-sand md:grid-cols-[220px_1fr]">
+    <div class="reveal relative mt-12 grid items-center gap-10 rounded-2xl bg-cream p-8 ring-1 ring-sand md:grid-cols-[230px_1fr] md:p-10">
+      <!-- Gold star pinned to the card corner, like a prize sticker -->
+      <svg class="absolute -left-4 -top-4 w-10 rotate-[-8deg] text-terracotta" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 1 C 13 8, 16 11, 23 12 C 16 13, 13 16, 12 23 C 11 16, 8 13, 1 12 C 8 11, 11 8, 12 1 Z" />
+      </svg>
       {tnalakCover && (
-        <Image src={tnalakCover} alt={`Cover of ${tnalak.data.title}`} widths={[220, 440]} sizes="220px" class="mx-auto w-44 rounded-lg shadow-md md:w-full" />
+        <div class="mx-auto w-44 -rotate-2 transition duration-300 hover:rotate-0 md:w-full">
+          <Image src={tnalakCover} alt={`Cover of ${tnalak.data.title}`} widths={[230, 460]} sizes="230px" class="sticker rounded-lg" />
+        </div>
       )}
       <div>
-        <p class="section-label">2026 Highlight</p>
+        <!-- Hand-drawn laurel flanking the highlight label -->
+        <p class="flex items-center gap-3">
+          <svg class="w-6 text-terracotta-dark" viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 3 C 10 7, 6 15, 8 25" />
+            <path d="M8 25 C 5 23, 3 20, 3 17 C 6 18, 8 20, 8 25 Z M7 16 C 4 14, 3 11, 4 8 C 6 10, 8 12, 7 16 Z M9 9 C 8 6, 9 3, 12 1 C 12 4, 11 7, 9 9 Z" />
+          </svg>
+          <span class="section-label">2026 Highlight</span>
+          <svg class="w-6 -scale-x-100 text-terracotta-dark" viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 3 C 10 7, 6 15, 8 25" />
+            <path d="M8 25 C 5 23, 3 20, 3 17 C 6 18, 8 20, 8 25 Z M7 16 C 4 14, 3 11, 4 8 C 6 10, 8 12, 7 16 Z M9 9 C 8 6, 9 3, 12 1 C 12 4, 11 7, 9 9 Z" />
+          </svg>
+        </p>
         <h3 class="font-display mt-2 text-2xl md:text-3xl">{tnalak.data.title}</h3>
         {/*
           This paragraph mirrors the `awards` array of the 'i-love-tnalak' entry
@@ -41,15 +58,20 @@ const tnalakCover = getCover(tnalak.data.cover);
       </div>
     </div>
 
-    <div class="reveal mt-12 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
-      {rest.map((b) => (
-        <BookCard
-          title={b.data.title}
-          cover={getCover(b.data.cover)}
-          category={b.data.category}
-          awards={b.data.awards}
-          translations={b.data.translations}
-        />
+    <div class="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+      {rest.map((b, i) => (
+        <div
+          class:list={['reveal', i % 2 === 0 ? '-rotate-[0.8deg]' : 'rotate-[0.8deg]']}
+          style={`transition-delay: ${(i % 4) * 70}ms`}
+        >
+          <BookCard
+            title={b.data.title}
+            cover={getCover(b.data.cover)}
+            category={b.data.category}
+            awards={b.data.awards}
+            translations={b.data.translations}
+          />
+        </div>
       ))}
     </div>
   </div>

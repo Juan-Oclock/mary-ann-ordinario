@@ -34,7 +34,7 @@ const {
   data-awards={awards.join('|')}
   data-translations={translations.join('|')}
 >
-  <div class="overflow-hidden rounded-xl bg-sand shadow-sm ring-1 ring-ink/5 transition group-hover:-translate-y-1 group-hover:shadow-lg">
+  <div class="overflow-hidden rounded-xl bg-sand shadow-sm ring-1 ring-ink/5 transition duration-300 group-hover:-translate-y-1.5 group-hover:-rotate-1 group-hover:shadow-lg">
     {cover ? (
       <Image
         src={cover}
@@ -61,6 +61,12 @@ const {
     )}
   </h3>
   {awards.length > 0 && (
-    <p class="mt-1 line-clamp-2 text-xs text-terracotta-dark">🏅 {awards[0]}</p>
+    <p class="mt-1.5 flex items-start gap-1.5 text-xs text-terracotta-dark">
+      <svg class="mt-px w-3.5 flex-none" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="8" cy="5.5" r="4" />
+        <path d="M5.5 9 L 4 14.5 M10.5 9 L 12 14.5" />
+      </svg>
+      <span class="line-clamp-2">{awards[0]}</span>
+    </p>
   )}
 </article>

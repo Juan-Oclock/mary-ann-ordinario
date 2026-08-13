@@ -52,6 +52,23 @@ footer .section-label {
   color: var(--color-sand);
 }
 
+/* Sticker-style edge around transparent cutouts: stacked drop-shadows trace
+   the alpha silhouette in ivory, like a die-cut sticker. Shared by the hero
+   portrait and the award-highlight cover. */
+.sticker {
+  filter: drop-shadow(3px 0 0 var(--color-ivory)) drop-shadow(-3px 0 0 var(--color-ivory))
+    drop-shadow(0 3px 0 var(--color-ivory)) drop-shadow(0 -3px 0 var(--color-ivory));
+}
+
+/* The new-releases shelf scrolls horizontally; arrows are the affordance, so
+   the scrollbar itself is hidden. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(16px);

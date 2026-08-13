@@ -29,14 +29,39 @@ const items = [
       <p class="section-label">News & Press</p>
       <h2 class="font-display mt-3 text-3xl md:text-4xl">Latest Milestones</h2>
     </div>
-    <div class="reveal mt-10 grid gap-6 md:grid-cols-2">
-      {items.map((n) => (
-        <article class="rounded-2xl bg-ivory p-6 ring-1 ring-ink/5">
+    <!-- Milestones strung along a dotted story-trail, echoing the hero's arc -->
+    <ol class="story-trail relative mx-auto mt-12 max-w-2xl">
+      {items.map((n, i) => (
+        <li class="reveal relative pb-10 pl-12 last:pb-0" style={`transition-delay: ${i * 80}ms`}>
+          <svg class="absolute left-0 top-0 w-6 text-terracotta" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 1 C 13 8, 16 11, 23 12 C 16 13, 13 16, 12 23 C 11 16, 8 13, 1 12 C 8 11, 11 8, 12 1 Z" />
+          </svg>
           <p class="text-xs uppercase tracking-widest text-terracotta-dark">{n.date}</p>
           <h3 class="font-display mt-2 text-xl">{n.title}</h3>
           <p class="mt-2 text-sm leading-relaxed text-ink-soft">{n.body}</p>
-        </article>
+        </li>
       ))}
-    </div>
+    </ol>
   </div>
 </section>
+
+<style>
+  /* Dotted trail segments connecting each star to the next, drawn with a
+     repeating radial gradient so they stay crisp at any height. Per-item
+     segments (rather than one full-height line) let the trail end exactly at
+     the last star. */
+  .story-trail li:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 10.5px;
+    top: 1.9rem;
+    bottom: 0.4rem;
+    width: 3px;
+    background-image: radial-gradient(
+      circle at center,
+      color-mix(in srgb, var(--color-terracotta) 50%, transparent) 1.4px,
+      transparent 1.5px
+    );
+    background-size: 3px 10px;
+  }
+</style>

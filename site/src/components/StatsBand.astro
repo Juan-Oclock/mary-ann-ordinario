@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import PaperEdge from './PaperEdge.astro';
 
 // Derived from the content collection so this band can never drift from what
 // the /books "New Releases 2026" tab actually shows.
@@ -8,22 +9,48 @@ const newReleaseCount = (await getCollection('books')).filter(
 ).length;
 
 const stats = [
-  { value: '75+', label: 'Books Published' },
-  { value: '20+', label: 'Awards & Citations' },
+  { value: '75+', label: 'Books Published', icon: 'book' },
+  { value: '20+', label: 'Awards & Citations', icon: 'medal' },
   // Only four languages are named across the client's source documents:
   // Malay, Thai, Chinese, and Bahasa Indonesia.
-  { value: '4+', label: 'Languages Translated' },
-  { value: String(newReleaseCount), label: 'New Releases in 2026' },
+  { value: '4+', label: 'Languages Translated', icon: 'globe' },
+  { value: String(newReleaseCount), label: 'New Releases in 2026', icon: 'sparkle' },
 ];
 ---
 
-<section class="bg-terracotta-dark text-cream">
-  <div class="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-5 py-10 text-center md:grid-cols-4">
-    {stats.map((s) => (
-      <div>
+<section class="relative bg-terracotta-dark text-cream">
+  <PaperEdge class="absolute inset-x-0 bottom-full z-10 h-4 fill-terracotta-dark" />
+  <div class="mx-auto grid max-w-6xl grid-cols-2 gap-x-8 gap-y-10 px-5 py-14 text-center md:grid-cols-4">
+    {stats.map((s, i) => (
+      <div class={i % 2 === 0 ? 'md:-rotate-1' : 'md:rotate-1'}>
+        {s.icon === 'book' && (
+          <svg class="mx-auto mb-3 w-9" viewBox="0 0 32 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 5 C 12 2, 6 2, 3 4 L 3 19 C 6 17, 12 17, 16 20 C 20 17, 26 17, 29 19 L 29 4 C 26 2, 20 2, 16 5 Z" />
+            <path d="M16 5 L 16 20" />
+          </svg>
+        )}
+        {s.icon === 'medal' && (
+          <svg class="mx-auto mb-3 w-9" viewBox="0 0 32 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="16" cy="9" r="6" />
+            <path d="M12 14 L 9 22 M20 14 L 23 22" />
+            <path d="M14 9 L 15.5 10.5 L 18.5 7.5" />
+          </svg>
+        )}
+        {s.icon === 'globe' && (
+          <svg class="mx-auto mb-3 w-9" viewBox="0 0 32 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="16" cy="12" r="9.5" />
+            <path d="M16 2.5 C 11.5 7, 11.5 17, 16 21.5 M16 2.5 C 20.5 7, 20.5 17, 16 21.5 M6.8 12 H 25.2" />
+          </svg>
+        )}
+        {s.icon === 'sparkle' && (
+          <svg class="mx-auto mb-3 w-9" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 1 C 13 8, 16 11, 23 12 C 16 13, 13 16, 12 23 C 11 16, 8 13, 1 12 C 8 11, 11 8, 12 1 Z" />
+          </svg>
+        )}
         <p class="font-display text-4xl">{s.value}</p>
         <p class="mt-1 text-sm uppercase tracking-widest text-cream">{s.label}</p>
       </div>
     ))}
   </div>
+  <PaperEdge class="absolute inset-x-0 top-full z-10 h-4 rotate-180 fill-terracotta-dark" />
 </section>

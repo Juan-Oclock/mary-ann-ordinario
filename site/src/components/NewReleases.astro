@@ -13,18 +13,55 @@ const books = (await getCollection('books'))
       <p class="section-label">Newly Released · 2026</p>
       <h2 class="font-display mt-3 text-3xl md:text-4xl">Fresh Off The Press</h2>
     </div>
-    <div class="reveal mt-10 flex snap-x gap-6 overflow-x-auto pb-4">
-      {books.map((b) => (
-        <div class="w-40 flex-none snap-start md:w-48">
-          <BookCard
-            title={b.data.title}
-            cover={getCover(b.data.cover)}
-            category={b.data.category}
-            awards={b.data.awards}
-            translations={b.data.translations}
-          />
-        </div>
-      ))}
+    <div class="relative">
+      <div id="releases-track" class="no-scrollbar reveal mt-8 flex snap-x gap-6 overflow-x-auto px-1 pb-4 pt-4">
+        {books.map((b, i) => (
+          <div class:list={['w-40 flex-none snap-start md:w-48', i % 2 === 0 ? '-rotate-[1.5deg]' : 'rotate-[1.5deg]']}>
+            <BookCard
+              title={b.data.title}
+              cover={getCover(b.data.cover)}
+              category={b.data.category}
+              awards={b.data.awards}
+              translations={b.data.translations}
+            />
+          </div>
+        ))}
+      </div>
+      <button
+        id="releases-prev"
+        type="button"
+        aria-label="Scroll to previous releases"
+        class="absolute -left-5 top-24 z-10 hidden h-11 w-11 items-center justify-center rounded-full bg-cream shadow-md ring-1 ring-ink/10 transition hover:text-terracotta hover:ring-terracotta md:flex"
+      >
+        <svg class="w-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 4 L 6 10 L 12 16" />
+        </svg>
+      </button>
+      <button
+        id="releases-next"
+        type="button"
+        aria-label="Scroll to more releases"
+        class="absolute -right-5 top-24 z-10 hidden h-11 w-11 items-center justify-center rounded-full bg-cream shadow-md ring-1 ring-ink/10 transition hover:text-terracotta hover:ring-terracotta md:flex"
+      >
+        <svg class="w-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 4 L 14 10 L 8 16" />
+        </svg>
+      </button>
     </div>
+    <!-- Wobbly shelf line the new books sit on -->
+    <svg class="reveal mx-auto -mt-1 w-full max-w-4xl text-ink/25" viewBox="0 0 800 10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+      <path d="M4 6 C 130 3, 260 8, 400 5 C 540 2, 670 7, 796 4" />
+    </svg>
   </div>
 </section>
+
+<script>
+  const track = document.getElementById('releases-track');
+  const step = () => (track ? Math.round(track.clientWidth * 0.8) : 0);
+  document.getElementById('releases-prev')?.addEventListener('click', () => {
+    track?.scrollBy({ left: -step(), behavior: 'smooth' });
+  });
+  document.getElementById('releases-next')?.addEventListener('click', () => {
+    track?.scrollBy({ left: step(), behavior: 'smooth' });
+  });
+</script>

@@ -5,8 +5,18 @@ import nbdbPhoto from '../assets/photos/mary-ann-nbdb.png';
 
 <section id="about" class="py-16 md:py-24">
   <div class="mx-auto grid max-w-6xl items-center gap-12 px-5 md:grid-cols-[1fr_1.3fr]">
-    <div class="reveal">
-      <Image src={nbdbPhoto} alt="Mary Ann Ordinario, Member of the NBDB Governing Board" widths={[360, 560, 760]} sizes="(min-width: 768px) 26rem, 90vw" class="rounded-2xl shadow-md" />
+    <div class="reveal relative">
+      <!-- Taped-down photo, like a keepsake in a scrapbook. The conference
+           graphic clashes with the site palette, so the ivory frame and tape
+           absorb it into the paper-craft world instead of presenting it raw. -->
+      <div class="relative mx-auto max-w-md -rotate-2 bg-ivory p-3 pb-6 shadow-lg ring-1 ring-ink/10 transition duration-300 hover:rotate-0">
+        <Image src={nbdbPhoto} alt="Mary Ann Ordinario, Member of the NBDB Governing Board" widths={[360, 560, 760]} sizes="(min-width: 768px) 26rem, 90vw" />
+        <div class="absolute -top-3 left-10 h-7 w-20 -rotate-6 bg-sand/80 shadow-sm ring-1 ring-ink/5" aria-hidden="true"></div>
+        <div class="absolute -bottom-3 right-10 h-7 w-20 -rotate-3 bg-sand/80 shadow-sm ring-1 ring-ink/5" aria-hidden="true"></div>
+      </div>
+      <svg class="absolute -right-2 -top-5 w-7 text-terracotta/70" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 1 C 13 8, 16 11, 23 12 C 16 13, 13 16, 12 23 C 11 16, 8 13, 1 12 C 8 11, 11 8, 12 1 Z" />
+      </svg>
     </div>
     <div class="reveal">
       <p class="section-label">About The Author</p>
