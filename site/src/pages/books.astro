@@ -20,7 +20,14 @@ const tabs = [
 >
   <section class="mx-auto max-w-6xl px-5 py-14 md:py-20">
     <p class="section-label">The Library</p>
-    <h1 class="font-display mt-3 text-4xl md:text-5xl">Books</h1>
+    <h1 class="font-display mt-3 flex items-center gap-4 text-4xl md:text-5xl">
+      Books
+      <!-- The pencil from her own "The Pencil Who Would Not Write", echoing the hero -->
+      <svg class="w-8 rotate-12 text-terracotta md:w-9" viewBox="0 0 28 36" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 4 L 26 10 L 12 28 L 5 31 L 6 24 Z" />
+        <path d="M17 8 L 23 13" />
+      </svg>
+    </h1>
     <p class="mt-4 max-w-2xl text-ink-soft">
       Stories celebrating Filipino culture, values, and the environment.
     </p>
@@ -66,14 +73,34 @@ const tabs = [
         />
       ))}
     </div>
-    <p id="no-results" class="mt-16 hidden text-center text-ink-soft">
-      No books match your search.
-    </p>
+    <div id="no-results" class="mt-16 hidden text-center text-ink-soft">
+      <!-- The whale from "A Whale in Prison", looking for the missing book -->
+      <svg class="mx-auto w-20 -rotate-6 text-terracotta/60" viewBox="0 0 44 22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 16 C 3 8, 11 3, 19 4 C 27 5, 31 10, 30 15 C 24 19, 10 20, 4 16 Z" />
+        <path d="M30 12 C 33 10, 35 7, 35 4 C 37 8, 40 10, 43 10 C 40 13, 35 14, 31 15" />
+        <circle cx="10" cy="9" r="1" fill="currentColor" stroke="none" />
+      </svg>
+      <p class="mt-4">No books match your search.</p>
+    </div>
   </section>
+
+  {/* is:global because .book-card lives inside the BookCard component, so
+      Astro's scoping class would never land on it from this page's template. */}
+  <style is:global>
+    /* Hand-arranged shelf: alternating sub-degree tilts. nth-child ignores
+       filtered-out (display:none) cards, so two same-tilt neighbors can meet
+       after filtering — at ±0.8° that reads as hand-placed, not broken. */
+    #books-grid > .book-card:nth-child(odd) {
+      rotate: -0.8deg;
+    }
+    #books-grid > .book-card:nth-child(even) {
+      rotate: 0.8deg;
+    }
+  </style>
 
   <dialog id="book-dialog" aria-labelledby="dialog-title" class="m-auto w-[min(92vw,40rem)] rounded-2xl bg-ivory p-0 backdrop:bg-ink/50">
     <div class="grid gap-6 p-6 sm:grid-cols-[200px_1fr] sm:p-8">
-      <img id="dialog-cover" alt="" class="mx-auto w-44 rounded-lg shadow-md sm:w-full" />
+      <img id="dialog-cover" alt="" class="mx-auto w-44 -rotate-1 rounded-lg shadow-md sm:w-full" />
       <div>
         <h2 id="dialog-title" class="font-display text-2xl"></h2>
         <ul id="dialog-awards" class="mt-4 space-y-2 text-sm text-terracotta-dark"></ul>
@@ -150,9 +177,17 @@ const tabs = [
       dCover.style.display = img ? '' : 'none';
       dTitle.textContent = card.dataset.title ?? '';
       dAwards.innerHTML = '';
+      // Same drawn medal as BookCard's award marker, kept in sync by hand.
+      const medal =
+        '<svg class="mt-0.5 w-3.5 flex-none" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<circle cx="8" cy="5.5" r="4" /><path d="M5.5 9 L 4 14.5 M10.5 9 L 12 14.5" /></svg>';
       for (const a of (card.dataset.awards ?? '').split('|').filter(Boolean)) {
         const li = document.createElement('li');
-        li.textContent = `🏅 ${a}`;
+        li.className = 'flex items-start gap-1.5';
+        li.insertAdjacentHTML('beforeend', medal);
+        const span = document.createElement('span');
+        span.textContent = a;
+        li.appendChild(span);
         dAwards.appendChild(li);
       }
       const trans = (card.dataset.translations ?? '').split('|').filter(Boolean);
