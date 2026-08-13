@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import { getCover } from '../lib/covers';
+import BookCard from './BookCard.astro';
+
+const teaser = (await getCollection('books'))
+  .filter((b) => b.data.category === 'regular' && b.data.cover)
+  .slice(0, 6);
+---
+
+<section class="py-16 md:py-20">
+  <div class="mx-auto max-w-6xl px-5 text-center">
+    <p class="section-label reveal">The Full Library</p>
+    <h2 class="font-display reveal mt-3 text-3xl md:text-4xl">Over 60 titles in this catalogue</h2>
+    <div class="reveal mt-10 grid grid-cols-3 gap-4 md:grid-cols-6">
+      {teaser.map((b) => (
+        <BookCard title={b.data.title} cover={getCover(b.data.cover)} category={b.data.category} />
+      ))}
+    </div>
+    <a href="/books" class="reveal mt-10 inline-block rounded-full bg-terracotta-dark px-8 py-3 font-semibold text-cream transition hover:bg-terracotta">View All Books</a>
+  </div>
+</section>

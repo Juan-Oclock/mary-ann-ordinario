@@ -1,0 +1,42 @@
+---
+const items = [
+  {
+    date: 'August 2026',
+    title: 'I Love Tnalak launches at the 40th IBBY World Congress',
+    body: 'Selected by UNESCO and IBBY as a Remarkable Book for Young Readers in Indigenous and Endangered Languages, officially launched in Ottawa, Canada.',
+  },
+  {
+    date: 'November 2025',
+    title: 'CMMA Special Citation for The Brave Little Stump',
+    body: 'Honored at the Catholic Mass Media Awards.',
+  },
+  {
+    date: '2025',
+    title: 'Two books on the Severino Reyes Honor List',
+    body: 'Si Kamatis Inis and A Whale in Prison named to the Best Picture Book Honor List of the Severino Reyes Medal.',
+  },
+  {
+    date: '2024',
+    title: 'Cardinal Sin Best Children\'s Book',
+    body: 'A Whale in Prison won Best Book in the Children\'s Category at the 18th Cardinal Sin Catholic Book Awards.',
+  },
+];
+---
+
+<section id="news" class="bg-sand/50 py-16 md:py-20">
+  <div class="mx-auto max-w-6xl px-5">
+    <div class="reveal text-center">
+      <p class="section-label">News & Press</p>
+      <h2 class="font-display mt-3 text-3xl md:text-4xl">Latest Milestones</h2>
+    </div>
+    <div class="reveal mt-10 grid gap-6 md:grid-cols-2">
+      {items.map((n) => (
+        <article class="rounded-2xl bg-ivory p-6 ring-1 ring-ink/5">
+          <p class="text-xs uppercase tracking-widest text-terracotta-dark">{n.date}</p>
+          <h3 class="font-display mt-2 text-xl">{n.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-soft">{n.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

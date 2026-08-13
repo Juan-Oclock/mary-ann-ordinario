@@ -1,0 +1,196 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BookCard from '../components/BookCard.astro';
+import { getCollection } from 'astro:content';
+import { getCover } from '../lib/covers';
+
+const books = (await getCollection('books')).sort((a, b) =>
+  a.data.title.localeCompare(b.data.title)
+);
+const tabs = [
+  { key: 'all', label: 'All Books' },
+  { key: 'award-winning', label: 'Award Winners' },
+  { key: 'new-release', label: 'New Releases 2026' },
+];
+---
+
+<Layout
+  title="Books — Mary Ann Ordinario"
+  description="Browse the full catalog of Mary Ann Ordinario's children's books — stories celebrating Filipino culture, values, and the environment."
+>
+  <section class="mx-auto max-w-6xl px-5 py-14 md:py-20">
+    <p class="section-label">The Library</p>
+    <h1 class="font-display mt-3 text-4xl md:text-5xl">Books</h1>
+    <p class="mt-4 max-w-2xl text-ink-soft">
+      Stories celebrating Filipino culture, values, and the environment.
+    </p>
+
+    <div class="mt-10 flex flex-wrap items-center gap-3">
+      {/*
+        The active/inactive class lists below are also toggled by the script at
+        the bottom of this page — keep the two in sync. The hover:* classes
+        belong to the INACTIVE state only: leaving them on the active tab put
+        terracotta text on a terracotta-dark background (1.41:1) on hover.
+      */}
+      {tabs.map((t, i) => (
+        <button
+          class:list={[
+            'filter-tab rounded-full border px-5 py-2 text-sm font-semibold transition',
+            i === 0
+              ? 'border-terracotta-dark bg-terracotta-dark text-cream'
+              : 'border-ink/20 text-ink-soft hover:border-terracotta hover:text-terracotta',
+          ]}
+          data-filter={t.key}
+          aria-pressed={i === 0 ? 'true' : 'false'}
+        >{t.label}</button>
+      ))}
+      <input
+        id="book-search"
+        type="search"
+        placeholder="Search titles…"
+        aria-label="Search books by title"
+        class="ml-auto w-full rounded-full border border-ink/20 bg-ivory px-5 py-2 text-sm outline-none focus:border-terracotta sm:w-64"
+      />
+    </div>
+
+    <h2 class="sr-only">Book List</h2>
+    <div id="books-grid" class="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
+      {books.map((b) => (
+        <BookCard
+          title={b.data.title}
+          cover={getCover(b.data.cover)}
+          category={b.data.category}
+          awards={b.data.awards}
+          translations={b.data.translations}
+          interactive={true}
+        />
+      ))}
+    </div>
+    <p id="no-results" class="mt-16 hidden text-center text-ink-soft">
+      No books match your search.
+    </p>
+  </section>
+
+  <dialog id="book-dialog" aria-labelledby="dialog-title" class="m-auto w-[min(92vw,40rem)] rounded-2xl bg-ivory p-0 backdrop:bg-ink/50">
+    <div class="grid gap-6 p-6 sm:grid-cols-[200px_1fr] sm:p-8">
+      <img id="dialog-cover" alt="" class="mx-auto w-44 rounded-lg shadow-md sm:w-full" />
+      <div>
+        <h2 id="dialog-title" class="font-display text-2xl"></h2>
+        <ul id="dialog-awards" class="mt-4 space-y-2 text-sm text-terracotta-dark"></ul>
+        <p id="dialog-translations" class="mt-4 text-sm text-ink-soft"></p>
+        <form method="dialog" class="mt-8">
+          <button class="rounded-full border border-ink/20 px-6 py-2 text-sm font-semibold transition hover:border-terracotta hover:text-terracotta">Close</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    const grid = document.getElementById('books-grid')!;
+    const cards = [...grid.querySelectorAll<HTMLElement>('.book-card')];
+    const tabs = [...document.querySelectorAll<HTMLButtonElement>('.filter-tab')];
+    const search = document.getElementById('book-search') as HTMLInputElement;
+    const noResults = document.getElementById('no-results')!;
+    let activeFilter = 'all';
+
+    function apply() {
+      const q = search.value.trim().toLowerCase();
+      let visible = 0;
+      for (const card of cards) {
+        const matchesFilter =
+          activeFilter === 'all' || card.dataset.category === activeFilter;
+        const matchesSearch = (card.dataset.title ?? '').toLowerCase().includes(q);
+        const show = matchesFilter && matchesSearch;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      }
+      noResults.classList.toggle('hidden', visible > 0);
+    }
+
+    for (const tab of tabs) {
+      tab.addEventListener('click', () => {
+        activeFilter = tab.dataset.filter ?? 'all';
+        for (const t of tabs) {
+          const active = t === tab;
+          t.setAttribute('aria-pressed', String(active));
+          t.classList.toggle('bg-terracotta-dark', active);
+          t.classList.toggle('text-cream', active);
+          t.classList.toggle('border-terracotta-dark', active);
+          t.classList.toggle('text-ink-soft', !active);
+          t.classList.toggle('border-ink/20', !active);
+          // Hover affordance belongs to the inactive state only. On the active
+          // tab these would paint terracotta text on terracotta-dark (1.41:1).
+          t.classList.toggle('hover:border-terracotta', !active);
+          t.classList.toggle('hover:text-terracotta', !active);
+        }
+        apply();
+      });
+    }
+    search.addEventListener('input', apply);
+
+    const dialog = document.getElementById('book-dialog') as HTMLDialogElement;
+    const dCover = document.getElementById('dialog-cover') as HTMLImageElement;
+    const dTitle = document.getElementById('dialog-title')!;
+    const dAwards = document.getElementById('dialog-awards')!;
+    const dTrans = document.getElementById('dialog-translations')!;
+
+    // The element that should regain focus once the dialog closes — the
+    // trigger button belonging to whichever card was opened.
+    let lastTrigger: HTMLButtonElement | null = null;
+
+    function openCard(card: HTMLElement) {
+      const img = card.querySelector('img');
+      const src = img?.currentSrc || img?.src || '';
+      if (src) {
+        dCover.src = src;
+      } else {
+        dCover.removeAttribute('src');
+      }
+      dCover.alt = img ? `Cover of ${card.dataset.title}` : '';
+      dCover.style.display = img ? '' : 'none';
+      dTitle.textContent = card.dataset.title ?? '';
+      dAwards.innerHTML = '';
+      for (const a of (card.dataset.awards ?? '').split('|').filter(Boolean)) {
+        const li = document.createElement('li');
+        li.textContent = `🏅 ${a}`;
+        dAwards.appendChild(li);
+      }
+      const trans = (card.dataset.translations ?? '').split('|').filter(Boolean);
+      dTrans.textContent = trans.length ? `Also translated into: ${trans.join(', ')}` : '';
+      dialog.showModal();
+    }
+
+    for (const card of cards) {
+      const trigger = card.querySelector<HTMLButtonElement>('.book-card-trigger');
+
+      // Primary control: the title button inside the card's <h3>.
+      trigger?.addEventListener('click', () => {
+        lastTrigger = trigger;
+        openCard(card);
+      });
+
+      // Mouse convenience: clicking anywhere else on the card also opens
+      // the dialog. The trigger's click bubbles up to the article, so we
+      // ignore article-level clicks that originated inside the trigger to
+      // avoid opening the dialog twice for a single click.
+      card.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('.book-card-trigger')) return;
+        lastTrigger = trigger;
+        openCard(card);
+      });
+    }
+
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+
+    // Explicitly restore focus to whichever trigger opened the dialog,
+    // regardless of which path closed it (Close button, backdrop click,
+    // or Escape) — don't rely on the browser's implicit restore-focus
+    // behavior for the backdrop-click path.
+    dialog.addEventListener('close', () => {
+      lastTrigger?.focus();
+    });
+  </script>
+</Layout>

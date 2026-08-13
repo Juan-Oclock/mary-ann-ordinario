@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+
+// Derived from the content collection so this band can never drift from what
+// the /books "New Releases 2026" tab actually shows.
+const newReleaseCount = (await getCollection('books')).filter(
+  (b) => b.data.category === 'new-release'
+).length;
+
+const stats = [
+  { value: '75+', label: 'Books Published' },
+  { value: '20+', label: 'Awards & Citations' },
+  // Only four languages are named across the client's source documents:
+  // Malay, Thai, Chinese, and Bahasa Indonesia.
+  { value: '4+', label: 'Languages Translated' },
+  { value: String(newReleaseCount), label: 'New Releases in 2026' },
+];
+---
+
+<section class="bg-terracotta-dark text-cream">
+  <div class="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-5 py-10 text-center md:grid-cols-4">
+    {stats.map((s) => (
+      <div>
+        <p class="font-display text-4xl">{s.value}</p>
+        <p class="mt-1 text-sm uppercase tracking-widest text-cream">{s.label}</p>
+      </div>
+    ))}
+  </div>
+</section>

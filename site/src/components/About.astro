@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets';
+import nbdbPhoto from '../assets/photos/mary-ann-nbdb.png';
+---
+
+<section id="about" class="py-16 md:py-24">
+  <div class="mx-auto grid max-w-6xl items-center gap-12 px-5 md:grid-cols-[1fr_1.3fr]">
+    <div class="reveal">
+      <Image src={nbdbPhoto} alt="Mary Ann Ordinario, Member of the NBDB Governing Board" widths={[360, 560, 760]} sizes="(min-width: 768px) 26rem, 90vw" class="rounded-2xl shadow-md" />
+    </div>
+    <div class="reveal">
+      <p class="section-label">About The Author</p>
+      <h2 class="font-display mt-3 text-3xl md:text-4xl">One of Mindanao's leading children's authors</h2>
+      <p class="mt-6 leading-relaxed text-ink-soft">
+        Mary Ann Ordinario, author of over 75 children's books, has received numerous awards in the
+        Philippines and abroad. She has dedicated her career to creating stories that inspire
+        children to appreciate culture, peace, diversity, environmental conservation, and Filipino
+        values.
+      </p>
+      <p class="mt-4 leading-relaxed text-ink-soft">
+        Her books have won honors from Singapore to Los Angeles — including the AFCC KidsTime
+        Author's Award, the International Indie Children's Book Cover Award, and a 2026 UNESCO–IBBY
+        selection — and have been translated and published in multiple countries worldwide.
+      </p>
+      <p class="mt-4 leading-relaxed text-ink-soft">
+        She is the founder of <strong>ABC Educational Development Center Children's Books</strong>
+        and serves as a member of the Governing Board of the National Book Development Board.
+      </p>
+    </div>
+  </div>
+</section>

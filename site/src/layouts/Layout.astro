@@ -1,0 +1,122 @@
+---
+import '../styles/global.css';
+import '@fontsource-variable/playfair-display';
+import '@fontsource-variable/inter';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const nav = [
+  { href: '/#about', label: 'About' },
+  { href: '/books', label: 'Books' },
+  { href: '/#awards', label: 'Awards' },
+  { href: '/#news', label: 'News' },
+  { href: '/#contact', label: 'Contact' },
+];
+const ogImage = new URL('/images/mary-ann-portrait.png', Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImage} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <!-- .reveal starts at opacity:0 and is only revealed by the IntersectionObserver.
+         Without JS that hid everything below the stats band, so opt out entirely.
+         !important is required: Astro injects the stylesheet link *after* this
+         block, so equal-specificity rules in global.css would otherwise win. -->
+    <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+  </head>
+  <body>
+    <header class="sticky top-0 z-40 border-b border-sand bg-cream/90 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+        <a href="/" class="font-display text-xl tracking-wide">Mary Ann Ordinario</a>
+        <nav class="hidden gap-8 text-sm md:flex" aria-label="Main">
+          {nav.map((l) => (
+            <a href={l.href} class="text-ink-soft transition hover:text-terracotta">{l.label}</a>
+          ))}
+        </nav>
+        <button
+          id="menu-btn"
+          class="md:hidden"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label="Open menu"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </button>
+      </div>
+      <nav id="mobile-menu" class="hidden flex-col gap-4 border-t border-sand px-5 py-4 md:hidden" aria-label="Mobile">
+        {nav.map((l) => (
+          <a href={l.href} class="text-ink-soft">{l.label}</a>
+        ))}
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer id="contact" class="bg-ink text-cream">
+      <div class="mx-auto max-w-6xl px-5 py-16 text-center">
+        <p class="section-label">Get In Touch</p>
+        <h2 class="font-display mt-3 text-3xl md:text-4xl">Let's tell a story together</h2>
+        <p class="mx-auto mt-4 max-w-xl text-cream/80">
+          For speaking engagements, school visits, publishing, and translation inquiries.
+        </p>
+        <a
+          href="mailto:abcedcchildrensbooks@gmail.com"
+          class="mt-8 inline-block rounded-full bg-terracotta-dark px-8 py-3 font-semibold text-cream transition hover:bg-terracotta"
+        >abcedcchildrensbooks@gmail.com</a>
+        <p class="mt-12 text-sm text-cream/60">
+          © {new Date().getFullYear()} Mary Ann Ordinario · ABC Educational Development Center Children's Books
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      const btn = document.getElementById('menu-btn');
+      const menu = document.getElementById('mobile-menu');
+      btn?.addEventListener('click', () => {
+        const open = menu?.classList.toggle('hidden') === false;
+        btn.setAttribute('aria-expanded', String(open));
+        btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        menu?.classList.toggle('flex', open);
+      });
+      menu?.addEventListener('click', (e) => {
+        if ((e.target as HTMLElement).tagName === 'A') {
+          menu.classList.add('hidden');
+          menu.classList.remove('flex');
+          btn?.setAttribute('aria-expanded', 'false');
+          btn?.setAttribute('aria-label', 'Open menu');
+        }
+      });
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('revealed');
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { threshold: 0.12 }
+      );
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

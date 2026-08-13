@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import { getCover } from '../lib/covers';
+import BookCard from './BookCard.astro';
+
+const award = (await getCollection('books')).filter((b) => b.data.category === 'award-winning');
+// HARD DEPENDENCY on the 'i-love-tnalak' id in src/data/books.json. This section
+// promotes that specific book as the 2026 highlight; renaming or removing that
+// entry's id will throw at build time (the non-null assertion below).
+const tnalak = award.find((b) => b.id === 'i-love-tnalak')!;
+const rest = award.filter((b) => b.id !== 'i-love-tnalak');
+const tnalakCover = getCover(tnalak.data.cover);
+---
+
+<section id="awards" class="bg-ivory py-16 md:py-24">
+  <div class="mx-auto max-w-6xl px-5">
+    <div class="reveal text-center">
+      <p class="section-label">Recognition</p>
+      <h2 class="font-display mt-3 text-3xl md:text-4xl">Award-Winning Books</h2>
+    </div>
+
+    <div class="reveal mt-12 grid items-center gap-8 rounded-2xl bg-cream p-8 ring-1 ring-sand md:grid-cols-[220px_1fr]">
+      {tnalakCover && (
+        <Image src={tnalakCover} alt={`Cover of ${tnalak.data.title}`} widths={[220, 440]} sizes="220px" class="mx-auto w-44 rounded-lg shadow-md md:w-full" />
+      )}
+      <div>
+        <p class="section-label">2026 Highlight</p>
+        <h3 class="font-display mt-2 text-2xl md:text-3xl">{tnalak.data.title}</h3>
+        {/*
+          This paragraph mirrors the `awards` array of the 'i-love-tnalak' entry
+          in src/data/books.json. If those award strings change, update this copy
+          alongside them — it is hand-written prose, not derived from the data.
+        */}
+        <p class="mt-4 leading-relaxed text-ink-soft">
+          Selected by UNESCO and the International Board on Books for Young People (IBBY) as a
+          Remarkable Book for Young Readers in Indigenous and Endangered Languages — launched at
+          the 40th IBBY World Congress in Ottawa, Canada, and exhibited in the official Congress
+          program.
+        </p>
+      </div>
+    </div>
+
+    <div class="reveal mt-12 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+      {rest.map((b) => (
+        <BookCard
+          title={b.data.title}
+          cover={getCover(b.data.cover)}
+          category={b.data.category}
+          awards={b.data.awards}
+          translations={b.data.translations}
+        />
+      ))}
+    </div>
+  </div>
+</section>

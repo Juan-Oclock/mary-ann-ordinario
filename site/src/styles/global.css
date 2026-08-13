@@ -1,0 +1,67 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-cream: #f5f0e8;
+  --color-ivory: #fbf8f3;
+  --color-sand: #eae2d3;
+  --color-terracotta: #c0623b;
+  --color-terracotta-dark: #9e4e2e;
+  --color-ink: #3e2f25;
+  --color-ink-soft: #6b5b4e;
+  --font-display: 'Playfair Display Variable', Georgia, serif;
+  --font-body: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tailwind v4's Preflight sets `button { cursor: default }`, which left every
+   control on the site without a clickability signal. These rules live outside
+   any @layer, so they win over Preflight's layered reset. */
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+/* Only the /books cards carry a click handler. BookCard adds
+   .book-card-interactive when its `interactive` prop is true, so the homepage's
+   decorative cards keep the default cursor and don't look clickable. */
+.book-card-interactive {
+  cursor: pointer;
+}
+
+.section-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-terracotta-dark);
+}
+
+/* On the dark footer, terracotta-dark no longer meets contrast against ink;
+   sand does (9.96:1). */
+footer .section-label {
+  color: var(--color-sand);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}

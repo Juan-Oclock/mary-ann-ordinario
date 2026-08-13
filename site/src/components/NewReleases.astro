@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import { getCover } from '../lib/covers';
+import BookCard from './BookCard.astro';
+
+const books = (await getCollection('books'))
+  .filter((b) => b.data.category === 'new-release' && b.data.cover);
+---
+
+<section class="bg-ivory py-16 md:py-20">
+  <div class="mx-auto max-w-6xl px-5">
+    <div class="reveal text-center">
+      <p class="section-label">Newly Released · 2026</p>
+      <h2 class="font-display mt-3 text-3xl md:text-4xl">Fresh Off The Press</h2>
+    </div>
+    <div class="reveal mt-10 flex snap-x gap-6 overflow-x-auto pb-4">
+      {books.map((b) => (
+        <div class="w-40 flex-none snap-start md:w-48">
+          <BookCard
+            title={b.data.title}
+            cover={getCover(b.data.cover)}
+            category={b.data.category}
+            awards={b.data.awards}
+            translations={b.data.translations}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

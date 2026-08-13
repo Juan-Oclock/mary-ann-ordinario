@@ -1,0 +1,66 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  title: string;
+  cover: ImageMetadata | null;
+  awards?: string[];
+  translations?: string[];
+  category: string;
+  widths?: number[];
+  /**
+   * Only /books wires up click handlers for these cards. Everywhere else the
+   * card is decorative, so the title renders as plain text — otherwise the
+   * homepage would present 34 focusable buttons that do nothing.
+   */
+  interactive?: boolean;
+}
+const {
+  title,
+  cover,
+  awards = [],
+  translations = [],
+  category,
+  widths = [200, 320, 480],
+  interactive = false,
+} = Astro.props;
+---
+
+<article
+  class:list={['book-card group', interactive && 'book-card-interactive']}
+  data-title={title}
+  data-category={category}
+  data-awards={awards.join('|')}
+  data-translations={translations.join('|')}
+>
+  <div class="overflow-hidden rounded-xl bg-sand shadow-sm ring-1 ring-ink/5 transition group-hover:-translate-y-1 group-hover:shadow-lg">
+    {cover ? (
+      <Image
+        src={cover}
+        alt={`Cover of ${title}`}
+        widths={widths}
+        sizes="(min-width: 1024px) 220px, (min-width: 640px) 30vw, 45vw"
+        class="aspect-[4/5] w-full object-contain"
+      />
+    ) : (
+      <div class="flex aspect-[4/5] items-center justify-center p-4 text-center">
+        <span class="font-display text-lg text-ink-soft">{title}</span>
+      </div>
+    )}
+  </div>
+  <h3 class="mt-3 text-sm font-semibold">
+    {interactive ? (
+      <button
+        type="button"
+        class="book-card-trigger line-clamp-2 text-left transition hover:text-terracotta focus:outline-none focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+        title={title}
+      >{title}</button>
+    ) : (
+      <span class="line-clamp-2" title={title}>{title}</span>
+    )}
+  </h3>
+  {awards.length > 0 && (
+    <p class="mt-1 line-clamp-2 text-xs text-terracotta-dark">🏅 {awards[0]}</p>
+  )}
+</article>

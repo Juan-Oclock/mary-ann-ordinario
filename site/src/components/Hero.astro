@@ -1,0 +1,28 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/photos/mary-ann-portrait.png';
+---
+
+<section class="relative overflow-hidden">
+  <div class="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 md:grid-cols-[1.2fr_1fr] md:py-24">
+    <div>
+      <p class="section-label">Children's Book Author · Mindanao, Philippines</p>
+      <h1 class="font-display mt-4 text-4xl leading-tight md:text-6xl">Mary Ann Ordinario</h1>
+      <p class="font-display mt-3 text-xl italic text-terracotta-dark md:text-2xl">
+        Award-winning author of over 75 children's books
+      </p>
+      <p class="mt-6 max-w-xl leading-relaxed text-ink-soft">
+        Stories that inspire children to appreciate culture, peace, diversity, environmental
+        conservation, and Filipino values — read in many languages around the world.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a href="/books" class="rounded-full bg-terracotta-dark px-7 py-3 font-semibold text-cream transition hover:bg-terracotta">Explore Books</a>
+        <a href="#contact" class="rounded-full border border-ink/20 px-7 py-3 font-semibold transition hover:border-terracotta hover:text-terracotta">Get in Touch</a>
+      </div>
+    </div>
+    <div class="relative mx-auto w-64 md:w-full md:max-w-sm">
+      <div class="absolute inset-x-4 bottom-0 top-10 rounded-t-full bg-sand" aria-hidden="true"></div>
+      <Image src={portrait} alt="Portrait of Mary Ann Ordinario" widths={[320, 480, 640]} sizes="(min-width: 768px) 24rem, 16rem" class="relative" />
+    </div>
+  </div>
+</section>
