@@ -48,10 +48,42 @@ const stats = [
             <path d="M12 1 C 13 8, 16 11, 23 12 C 16 13, 13 16, 12 23 C 11 16, 8 13, 1 12 C 8 11, 11 8, 12 1 Z" />
           </svg>
         )}
-        <p class="font-display text-4xl">{s.value}</p>
+        <p class="stat-value font-display text-4xl" data-value={s.value}>{s.value}</p>
         <p class="mt-1 text-sm uppercase tracking-widest text-cream">{s.label}</p>
       </div>
     ))}
   </div>
   <PaperEdge class="absolute inset-x-0 top-full z-10 h-4 rotate-180 fill-terracotta-dark" />
 </section>
+
+<script>
+  // Count each stat up from zero when the band scrolls into view. The numbers
+  // are server-rendered at their final values, so no JS (or reduced motion)
+  // simply means no animation — never a missing number.
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          io.unobserve(e.target);
+          const el = e.target as HTMLElement;
+          const final = el.dataset.value ?? '';
+          const num = parseInt(final, 10);
+          if (Number.isNaN(num)) continue;
+          const suffix = final.slice(String(num).length);
+          const start = performance.now();
+          const duration = 1100;
+          const tick = (t: number) => {
+            const p = Math.min(1, (t - start) / duration);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.round(num * eased) + suffix;
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    document.querySelectorAll('.stat-value').forEach((el) => io.observe(el));
+  }
+</script>
