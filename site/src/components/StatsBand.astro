@@ -11,9 +11,10 @@ const newReleaseCount = (await getCollection('books')).filter(
 const stats = [
   { value: '75+', label: 'Books Published', icon: 'book' },
   { value: '20+', label: 'Awards & Citations', icon: 'medal' },
-  // Only four languages are named across the client's source documents:
-  // Malay, Thai, Chinese, and Bahasa Indonesia.
-  { value: '4+', label: 'Languages Translated', icon: 'globe' },
+  // Ten languages named in the client's updated bio (Aug 2026): Nihongo,
+  // Malay, Mandarin, Thai, Russian, Korean, Nepali, Azerbaijani, Arabic,
+  // and Bahasa Indonesia.
+  { value: '10+', label: 'Languages Translated', icon: 'globe' },
   { value: String(newReleaseCount), label: 'New Releases in 2026', icon: 'sparkle' },
 ];
 ---

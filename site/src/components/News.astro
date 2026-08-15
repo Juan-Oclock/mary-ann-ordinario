@@ -1,9 +1,29 @@
 ---
+import { Image } from 'astro:assets';
+import malaysiaMou from '../assets/photos/malaysia-mou-signing.jpg';
+
 const items = [
   {
     date: 'August 2026',
     title: 'I Love Tnalak launches at the 40th IBBY World Congress',
     body: 'Selected by UNESCO and IBBY as a Remarkable Book for Young Readers in Indigenous and Endangered Languages, officially launched in Ottawa, Canada.',
+  },
+  {
+    date: 'July 2026',
+    title: 'Malaysian publishing deal signed in Kuala Lumpur',
+    body: "A memorandum of understanding with Malaysia's Shake Book Projects — signed at the 35th International Publishers Congress at the Grand Hyatt Kuala Lumpur — brings her books to Malaysian readers.",
+    image: malaysiaMou,
+    imageAlt: 'Mary Ann Ordinario signing the MOU with Shake Book Projects in Kuala Lumpur',
+  },
+  {
+    date: 'March 2026',
+    title: 'Malong: The Magic Cloth comes to the stage',
+    body: "Teatro Arellano's immersive musical adaptation of her book, staged with the National Book Development Board at the Philippine Book Festival 2026.",
+  },
+  {
+    date: '2026',
+    title: 'A Whale in Prison staged for 400 students in Bangkok',
+    body: 'The Thai edition by Praphansarn Publishing came to life in a stage adaptation performed for 400 students across Thailand, onsite and online.',
   },
   {
     date: 'November 2025',
@@ -39,6 +59,13 @@ const items = [
           <p class="text-xs uppercase tracking-widest text-terracotta-dark">{n.date}</p>
           <h3 class="font-display mt-2 text-xl">{n.title}</h3>
           <p class="mt-2 text-sm leading-relaxed text-ink-soft">{n.body}</p>
+          {n.image && (
+            <div class="relative mt-5 max-w-sm rotate-1 bg-ivory p-2 pb-3 shadow-md ring-1 ring-ink/10">
+              <Image src={n.image} alt={n.imageAlt ?? ''} widths={[360, 560]} sizes="(min-width: 640px) 24rem, 80vw" />
+              <div class="absolute -top-2.5 left-8 h-5 w-14 -rotate-6 bg-sand/80 shadow-sm ring-1 ring-ink/5" aria-hidden="true"></div>
+              <div class="absolute -top-2.5 right-8 h-5 w-14 rotate-3 bg-sand/80 shadow-sm ring-1 ring-ink/5" aria-hidden="true"></div>
+            </div>
+          )}
         </li>
       ))}
     </ol>
