@@ -37,12 +37,14 @@ filter tabs read `data-category` off each card. The other stats (75+ books,
 - Before going live, set the real domain in `astro.config.mjs` (`site:` field).
 
 ## Pending client content (see `note` fields in books.json)
-- Covers still missing: Jesus Raises Lazarus From The Dead, Learning About The
-  Philippines. (Famous Wonders cover arrived Aug 2026 but is low-res, 439×403 —
-  request a higher-res version.)
-- Resolved Aug 2026 via the client's "ABC Books_with updates" delivery:
-  Ang Mabahong Prutas is the Filipino title of The Smelly Fruit (single entry
-  now); contact email is abcedc@yahoo.com; languages count is 10.
+- Cover still missing: Jesus Raises Lazarus From The Dead.
+- Resolved Aug 2026 via the client's "ABC Books_with updates" delivery and
+  follow-up replies: Ang Mabahong Prutas is the Filipino title of The Smelly
+  Fruit (single entry now); "Learning About The Philippines" is only two books
+  (Counting Book and Famous Wonders — the standalone third entry was removed);
+  the low-res Famous Wonders cover is final per the client; contact email is
+  abcedc@yahoo.com; languages count is 10; "Bakit Kumakain ng Bato si Loro"
+  (by Anselmo S. Osores Jr.) is excluded per the client.
 - **The Crying Trees award placement.** The client's bio prose says "Grand Prize"
   while the itemised award list in the same document says "2nd Place — 2016 AFCC
   Singapore Samsung KidsTime Authors Award". The site currently states the award
