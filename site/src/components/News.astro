@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import malaysiaMou from '../assets/photos/malaysia-mou-signing.jpg';
+// Real-ESRGAN 4x upscale of the client's low-res performance photo
+import malongStage from '../assets/photos/malong-stage-play.jpg';
 
 const items = [
   {
@@ -19,6 +21,8 @@ const items = [
     date: 'March 2026',
     title: 'Malong: The Magic Cloth comes to the stage',
     body: "Teatro Arellano's immersive musical adaptation of her book, staged with the National Book Development Board at the Philippine Book Festival 2026.",
+    image: malongStage,
+    imageAlt: 'The Teatro Arellano cast of Malong: The Magic Cloth on stage at the Philippine Book Festival',
   },
   {
     date: '2026',
