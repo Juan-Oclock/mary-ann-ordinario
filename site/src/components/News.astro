@@ -3,6 +3,9 @@ import { Image } from 'astro:assets';
 import malaysiaMou from '../assets/photos/malaysia-mou-signing.jpg';
 // Real-ESRGAN 4x upscale of the client's low-res performance photo
 import malongStage from '../assets/photos/malong-stage-play.jpg';
+// Article screenshot from New Update.docx — the headline exists only as pixels
+// here, which is why the listing was missed on the first pass through the doc.
+import noteworthyBooks from '../assets/photos/noteworthy-filipino-books-2024.png';
 
 const items = [
   {
@@ -40,11 +43,24 @@ const items = [
     body: 'Si Kamatis Inis and A Whale in Prison named to the Best Picture Book Honor List of the Severino Reyes Medal.',
   },
   {
+    date: 'December 2024',
+    title: 'A Whale in Prison named one of the 39 Noteworthy Filipino Books of 2024',
+    body: 'Honored as the Cardinal Sin Best Children’s Story for 2024, this powerful book by Mary Ann Ordinario and Danielle Florendo inspires young readers to protect our oceans and care for our planet.',
+    image: noteworthyBooks,
+    imageAlt: 'The "39 noteworthy Filipino books of 2024" feature by Neni Sta. Romana Cruz, which lists A Whale in Prison',
+  },
+  {
     date: '2024',
     title: 'Cardinal Sin Best Children\'s Book',
     body: 'A Whale in Prison won Best Book in the Children\'s Category at the 18th Cardinal Sin Catholic Book Awards.',
   },
 ];
+
+// The four most recent milestones carry the section on their own; the rest are
+// archive that only some readers want. Collapsing them keeps the section near
+// one screen and keeps it there as more milestones arrive.
+const VISIBLE = 4;
+const archived = items.length - VISIBLE;
 ---
 
 <section id="news" class="bg-sand/50 py-16 md:py-20">
@@ -53,28 +69,163 @@ const items = [
       <p class="section-label">News & Press</p>
       <h2 class="font-display mt-3 text-3xl md:text-4xl">Latest Milestones</h2>
     </div>
-    <!-- Milestones strung along a dotted story-trail, echoing the hero's arc -->
-    <ol class="story-trail relative mx-auto mt-12 max-w-2xl">
-      {items.map((n, i) => (
-        <li class="reveal relative pb-10 pl-12 last:pb-0" style={`transition-delay: ${i * 80}ms`}>
-          <svg class="absolute left-0 top-0 w-6 text-terracotta" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12 1 C 13 8, 16 11, 23 12 C 16 13, 13 16, 12 23 C 11 16, 8 13, 1 12 C 8 11, 11 8, 12 1 Z" />
-          </svg>
-          <p class="text-xs uppercase tracking-widest text-terracotta-dark">{n.date}</p>
-          <h3 class="font-display mt-2 text-xl">{n.title}</h3>
-          <p class="mt-2 text-sm leading-relaxed text-ink-soft">{n.body}</p>
-          {n.image && (
-            <div class="relative mt-5 max-w-sm rotate-1 bg-ivory p-2 pb-3 shadow-md ring-1 ring-ink/10">
-              <Image src={n.image} alt={n.imageAlt ?? ''} widths={[360, 560]} sizes="(min-width: 640px) 24rem, 80vw" />
-              <div class="absolute -top-2.5 left-8 h-5 w-14 -rotate-6 bg-sand/80 shadow-sm ring-1 ring-ink/5" aria-hidden="true"></div>
-              <div class="absolute -top-2.5 right-8 h-5 w-14 rotate-3 bg-sand/80 shadow-sm ring-1 ring-ink/5" aria-hidden="true"></div>
+    {/* Milestones on a dotted story-trail. Past md the trail becomes a centre
+        spine with entries falling to either side, so the section reads as an
+        open storybook spread instead of one long ribbon down a wide page —
+        and the three photo entries stop stacking in a single narrow column. */}
+    <ol id="milestones-trail" class="story-trail relative mx-auto mt-12 max-w-2xl md:max-w-5xl">
+      {items.map((n, i) => {
+        const left = i % 2 === 0;
+        const archivedItem = i >= VISIBLE;
+        return (
+          <li
+            class:list={[
+              'reveal relative pb-10 pl-12 last:pb-0 md:grid md:grid-cols-2 md:gap-x-12 md:pl-0',
+              archivedItem && 'milestone-archived',
+            ]}
+            hidden={archivedItem ? 'until-found' : undefined}
+            style={`transition-delay: ${(i % VISIBLE) * 80}ms`}
+          >
+            <svg
+              class="absolute left-0 top-0 z-10 w-6 text-terracotta md:left-1/2 md:-translate-x-1/2"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M12 1 C 13 8, 16 11, 23 12 C 16 13, 13 16, 12 23 C 11 16, 8 13, 1 12 C 8 11, 11 8, 12 1 Z" />
+            </svg>
+            <div class:list={[left ? 'md:col-start-1 md:text-right' : 'md:col-start-2', 'md:row-start-1 md:pt-1']}>
+              <p class="text-xs uppercase tracking-widest text-terracotta-dark">{n.date}</p>
+              <h3 class="font-display mt-2 text-xl">{n.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-soft">{n.body}</p>
             </div>
-          )}
-        </li>
-      ))}
+            {n.image && (
+              // The photo takes the facing page rather than sitting under its
+              // own text — an open spread, words on one leaf and the picture
+              // on the other. It is also what stops the three photo entries
+              // from dominating the section's height.
+              <div
+                class:list={[
+                  'md:row-start-1 md:pt-1',
+                  left ? 'md:col-start-2' : 'md:col-start-1 md:flex md:justify-end',
+                ]}
+              >
+                <div
+                  class:list={[
+                    'relative mt-5 max-w-sm bg-ivory p-2 pb-3 text-left shadow-md ring-1 ring-ink/10 md:mt-0',
+                    // Mirror the tilt across the spine so the two leaves lean
+                    // away from each other instead of marching in parallel.
+                    left ? 'rotate-1' : 'rotate-1 md:-rotate-1',
+                  ]}
+                >
+                  <Image src={n.image} alt={n.imageAlt ?? ''} widths={[360, 560]} sizes="(min-width: 768px) 22rem, 80vw" />
+                  <div class="absolute -top-2.5 left-8 h-5 w-14 -rotate-6 bg-sand/80 shadow-sm ring-1 ring-ink/5" aria-hidden="true"></div>
+                  <div class="absolute -top-2.5 right-8 h-5 w-14 rotate-3 bg-sand/80 shadow-sm ring-1 ring-ink/5" aria-hidden="true"></div>
+                </div>
+              </div>
+            )}
+          </li>
+        );
+      })}
     </ol>
+
+    {archived > 0 && (
+      <div class="mt-8 flex justify-center">
+        <button
+          id="milestones-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="milestones-trail"
+          class="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-ivory px-5 py-2.5 text-sm font-semibold text-ink-soft shadow-sm transition hover:border-terracotta hover:text-terracotta focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
+        >
+          <span data-label>Show {archived} earlier milestones</span>
+          <svg
+            data-chevron
+            class="w-4 transition-transform duration-300"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.9"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M3.5 6 L 8 10.5 L 12.5 6" />
+          </svg>
+        </button>
+      </div>
+    )}
+
+    {/* Without JS the button cannot work, so show every milestone and drop the
+        control entirely rather than stranding four entries behind a dead one. */}
+    <noscript>
+      <style>
+        .milestone-archived {
+          display: list-item !important;
+          content-visibility: visible !important;
+        }
+        #milestones-toggle {
+          display: none;
+        }
+      </style>
+    </noscript>
   </div>
 </section>
+
+<script>
+  const toggle = document.getElementById('milestones-toggle');
+  const archived = [...document.querySelectorAll<HTMLElement>('.milestone-archived')];
+
+  if (toggle && archived.length) {
+    const label = toggle.querySelector('[data-label]')!;
+    const chevron = toggle.querySelector('[data-chevron]')!;
+    const collapsedLabel = label.textContent;
+
+    function setExpanded(open: boolean) {
+      toggle!.setAttribute('aria-expanded', String(open));
+      for (const li of archived) {
+        // hidden="until-found" keeps the text reachable by browser find-in-page,
+        // which expands the section itself via the beforematch event below.
+        if (open) li.removeAttribute('hidden');
+        else li.setAttribute('hidden', 'until-found');
+        // The shared scroll-reveal observer treats these as intersecting while
+        // they are collapsed — a zero-area box still counts — so it marks them
+        // revealed and stops watching long before anyone can see them. Clearing
+        // the class and re-adding it on the next frame replays the same fade-up
+        // the rest of the page uses, with the stagger already on each item.
+        // Suppress the transition while resetting, otherwise the class removal
+        // starts a 0.6s fade toward 0 that the next frame immediately reverses
+        // and the first expand shows almost no movement at all. This has to be
+        // a class, not li.style.transition — writing the shorthand wipes the
+        // inline transition-delay that carries each item's stagger.
+        li.classList.add('is-resetting');
+        li.classList.remove('revealed');
+      }
+      if (open) {
+        void archived[0].offsetWidth; // commit the un-revealed state
+        for (const li of archived) li.classList.remove('is-resetting');
+        requestAnimationFrame(() => {
+          for (const li of archived) li.classList.add('revealed');
+        });
+      }
+      label.textContent = open ? 'Show fewer' : collapsedLabel;
+      chevron.classList.toggle('rotate-180', open);
+    }
+
+    // Astro serialises hidden="until-found" as a plain boolean `hidden`, so the
+    // markup ships collapsed (no flash of all eight) and this upgrades it to the
+    // find-in-page-aware value once scripting is available.
+    setExpanded(false);
+
+    toggle.addEventListener('click', () =>
+      setExpanded(toggle.getAttribute('aria-expanded') !== 'true')
+    );
+
+    for (const li of archived) {
+      li.addEventListener('beforematch', () => setExpanded(true));
+    }
+  }
+</script>
 
 <style>
   /* Dotted trail segments connecting each star to the next, drawn with a
@@ -94,5 +245,27 @@ const items = [
       transparent 1.5px
     );
     background-size: 3px 10px;
+  }
+
+  /* hidden="until-found" skips an element's *contents*, but the element still
+     generates a box — so each collapsed entry left its 2.5rem of padding
+     behind, stacking ~120px of empty gap above the toggle. */
+  .milestone-archived[hidden] {
+    padding-bottom: 0;
+  }
+
+  /* Held for one frame while the expand animation is rewound to its start. */
+  .milestone-archived.is-resetting {
+    transition: none !important;
+  }
+
+  /* On the two-column spread the trail runs down the middle instead of the
+     left edge. The last item still gets no segment, so the trail ends on a
+     star rather than trailing into empty space. */
+  @media (min-width: 768px) {
+    .story-trail li:not(:last-child)::before {
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 </style>
