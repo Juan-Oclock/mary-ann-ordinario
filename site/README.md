@@ -41,9 +41,8 @@ Synopses come from the client's Aug 2026 spreadsheet. Her copy carried a number
 of typos — mostly words missing a doubled letter (`ful`, `wal`, `skils`, `wil`),
 plus a few run-together words — so it was lightly copyedited on the way in.
 Every substantive change is listed in [`../docs/blurb-edits.md`](../docs/blurb-edits.md)
-for her to review; style choices were left alone. Two things still need her:
+for her to review; style choices were left alone. One thing still needs her:
 
-- **Chatkak The Talkative Frog** has no spreadsheet row, so no blurb and no link.
 - **Learning About The Philippines: Counting Book** was given a blurb that
   describes *Famous Wonders* instead — the two rows are near-identical. It is
   published as supplied; confirm whether the Counting Book needs its own.
@@ -72,6 +71,8 @@ for her to review; style choices were left alone. Two things still need her:
   Singapore 2016); the ten translation languages are now named in full in
   About.astro; Facebook, Instagram, and Shopee links are in the footer.
   "Okey Lang Maging Kalbo" (by Eric Ruiz Roxas) is excluded per the client.
+  "Chatkak The Talkative Frog" is removed per Juan — it appeared in neither
+  Book Titles.docx nor the spreadsheet, so it had no blurb or Shopee link.
 - Three titles added from that same delivery, filed as `new-release` because the
   spreadsheet lists them below its "New Released Books" separator: A Mother's
   Love in Every Hop, Amihan's Colorful Coconut Leaf Slippers, Memories of Agila.
@@ -88,4 +89,4 @@ for her to review; style choices were left alone. Two things still need her:
   describes the award, not a translation. Removed pending confirmation.
 - Confirm: `kingdom.png` identity (mapped to "The Kingdom With No Stories"),
   and titles found in the cover folders but not the title list (Smelly Fruit,
-  Chatkak, Counting Book).
+  Counting Book).

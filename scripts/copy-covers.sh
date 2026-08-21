@@ -32,7 +32,6 @@ cp "$BK/A great miracle.png"                                "$DEST/a-great-mirac
 cp "$BK/Ako ay Pilipino.jpg"                                "$DEST/ako-ay-pilipino.jpg"
 cp "$BK/Bakit ang Manok ay Walang Ngipin.jpeg"              "$DEST/bakit-walang-ngipin-ang-mga-manok.jpeg"
 cp "$BK/BAKIT MALINIS ANG NGIPIN NG BUWAYA (1).png"         "$DEST/bakit-malinis-ang-ngipin-ng-buwaya.png"
-cp "$BK/CHATKAK THE TALKATIVE FROG(COVER).jpg"              "$DEST/chatkak-the-talkative-frog.jpg"
 cp "$BK/Cindys 365.png"                                     "$DEST/cindys-365-bags-and-more.png"
 cp "$BK/Crossing the Red Sea.png"                           "$DEST/crossing-the-red-sea.png"
 cp "$BK/Daniel in  the Lion_s Den.png"                      "$DEST/daniel-in-the-lions-den.png"
