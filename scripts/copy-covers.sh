@@ -4,10 +4,11 @@ cd "$(dirname "$0")/.."
 AW="Award Winning Books- Book Covers"
 BK="Book Covers"
 NW="Newly Released Books Covers"
+NU="with new updates/ABC Books /NEW UPDATE _  NEW BOOK COVER"
 DEST="site/src/assets/covers"
 mkdir -p "$DEST" "site/src/assets/photos" "site/public/images"
 
-# Award-winning (17)
+# From "Award Winning Books- Book Covers" (16)
 cp "$AW/A Whale in Prison (3).png"                          "$DEST/a-whale-in-prison.png"
 cp "$AW/BAREFOOT BULAYAN (COVER).jpg"                       "$DEST/barefoot-bulayan.jpg"
 cp "$AW/BULUL (COVER).jpg"                                  "$DEST/bulul.jpg"
@@ -17,7 +18,6 @@ cp "$AW/I LOVE TNALAK (COVER).jpg"                          "$DEST/i-love-tnalak
 cp "$AW/MALONG THE MAGIC CLOTH (COVER).jpg"                 "$DEST/malong-the-magic-cloth.jpg"
 cp "$AW/PENCIL WHO WOULD NOT WRITE (COVER).jpg"             "$DEST/the-pencil-who-would-not-write.jpg"
 cp "$AW/Si Kamatis Inis (1).png"                            "$DEST/si-kamatis-inis.png"
-cp "$AW/SOMEBODY IS EATING CHOCOLATE HILLS (COVER).jpg"     "$DEST/somebody-is-eating-the-chocolate-hills.jpg"
 cp "$AW/The Brave Little Stump (1).png"                     "$DEST/the-brave-little-stump.png"
 cp "$AW/THE CRYING TREES (COVER).jpg"                       "$DEST/the-crying-trees.jpg"
 cp "$AW/THE LITTLE SEED (COVER).jpg"                        "$DEST/the-little-seed.jpg"
@@ -26,7 +26,7 @@ cp "$AW/THE SMELLY FRUIT (COVER).jpg"                       "$DEST/the-smelly-fr
 cp "$AW/WAR MAKES ME SAD (COVER).jpg"                       "$DEST/war-makes-me-sad.jpg"
 cp "$AW/WHY IS A PIG_S NOSE FLAT (COVER).jpg"               "$DEST/why-is-a-pigs-nose-flat.jpg"
 
-# General catalog (34)
+# From "Book Covers" (34)
 cp "$BK/A BASKET IN WAR (COVER).jpg"                        "$DEST/a-basket-in-war.jpg"
 cp "$BK/A great miracle.png"                                "$DEST/a-great-miracle.png"
 cp "$BK/Ako ay Pilipino.jpg"                                "$DEST/ako-ay-pilipino.jpg"
@@ -62,7 +62,7 @@ cp "$BK/Tuna Festival.jpeg"                                 "$DEST/tuna-festival
 cp "$BK/Two Hats, One Heart_300dpi.png"                     "$DEST/two-hats-one-heart.png"
 cp "$BK/Where Shall We Build Our Nest (1).png"              "$DEST/where-shall-we-build-our-nest.png"
 
-# New releases 2026 (12)
+# From "Newly Released Books Covers" (12)
 cp "$NW/A Crumpled Piece of Paper.png"                      "$DEST/a-crumpled-piece-of-paper.png"
 cp "$NW/BALLOONS FLY ANIMALS CRY.jpg"                       "$DEST/balloons-fly-animals-cry.jpg"
 cp "$NW/BE YOURSELF, BE BRAVE.jpg"                          "$DEST/be-yourself-be-brave.jpg"
@@ -75,6 +75,14 @@ cp "$NW/PURPLE HANDS LOVING HANDS.jpg"                      "$DEST/purple-hands-
 cp "$NW/Si Karla feeling Prinsesa (4).png"                  "$DEST/si-karla-feeling-prinsesa.png"
 cp "$NW/The Flood Took Lyka Away.jpg"                       "$DEST/the-flood-took-lyka-away.jpg"
 cp "$NW/THE LOG OF HOPE.jpg"                                "$DEST/the-log-of-hope.jpg"
+
+# From the "with new updates" delivery, Aug 2026 (4). The three Facebook-export
+# filenames were identified by opening each image; the fourth finally supplies
+# the cover that Jesus Raises Lazarus From The Dead had been missing.
+cp "$NU/768442062_1603869451310761_4521152239130920427_n.jpg" "$DEST/a-mothers-love-in-every-hop.jpg"
+cp "$NU/767755473_2079541216020900_4691013290563637310_n.jpg" "$DEST/amihans-colorful-coconut-leaf-slippers.jpg"
+cp "$NU/767996163_1582376426727271_5058527348781586774_n.jpg" "$DEST/memories-of-agila.jpg"
+cp "$NU/Jesus Raises Lazarus from the Dead.png"                "$DEST/jesus-raises-lazarus-from-the-dead.png"
 
 # Author photos
 cp "$AW/Mary Ann Ordinario/Ms Mary Ann.png"                 "site/src/assets/photos/mary-ann-portrait.png"

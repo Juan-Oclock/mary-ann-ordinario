@@ -10,6 +10,11 @@ const books = defineCollection({
     awards: z.array(z.string()).default([]),
     translations: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
+    /** Client's own synopsis, lightly copyedited. Absent for titles she has
+     *  not supplied one for, so every consumer must handle it being missing. */
+    blurb: z.string().optional(),
+    /** Shopee product page. Absent for the titles not yet listed there. */
+    shopeeUrl: z.string().url().optional(),
     note: z.string().optional(),
   }),
 });

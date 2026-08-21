@@ -8,6 +8,8 @@ interface Props {
   awards?: string[];
   translations?: string[];
   category: string;
+  blurb?: string;
+  shopeeUrl?: string;
   widths?: number[];
   /**
    * Only /books wires up click handlers for these cards. Everywhere else the
@@ -22,9 +24,16 @@ const {
   awards = [],
   translations = [],
   category,
+  blurb,
+  shopeeUrl,
   widths = [200, 320, 480],
   interactive = false,
 } = Astro.props;
+
+// Only the interactive cards on /books open a dialog, so only they need to
+// carry the blurb. Emitting it everywhere would inline all 66 synopses into
+// the homepage for markup nothing there reads.
+const detail = interactive ? { blurb, shopeeUrl } : { blurb: undefined, shopeeUrl: undefined };
 ---
 
 <article
@@ -33,6 +42,8 @@ const {
   data-category={category}
   data-awards={awards.join('|')}
   data-translations={translations.join('|')}
+  data-blurb={detail.blurb}
+  data-shopee={detail.shopeeUrl}
 >
   <div class="overflow-hidden rounded-xl bg-sand shadow-sm ring-1 ring-ink/5 transition duration-300 group-hover:-translate-y-1.5 group-hover:-rotate-1 group-hover:shadow-lg">
     {cover ? (

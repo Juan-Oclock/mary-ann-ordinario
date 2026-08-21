@@ -69,6 +69,8 @@ const tabs = [
           category={b.data.category}
           awards={b.data.awards}
           translations={b.data.translations}
+          blurb={b.data.blurb}
+          shopeeUrl={b.data.shopeeUrl}
           interactive={true}
         />
       ))}
@@ -103,11 +105,24 @@ const tabs = [
       <img id="dialog-cover" alt="" class="mx-auto w-44 -rotate-1 rounded-lg shadow-md sm:w-full" />
       <div>
         <h2 id="dialog-title" class="font-display text-2xl"></h2>
+        <p id="dialog-blurb" class="mt-4 text-sm leading-relaxed text-ink-soft"></p>
         <ul id="dialog-awards" class="mt-4 space-y-2 text-sm text-terracotta-dark"></ul>
         <p id="dialog-translations" class="mt-4 text-sm text-ink-soft"></p>
-        <form method="dialog" class="mt-8">
-          <button class="rounded-full border border-ink/20 px-6 py-2 text-sm font-semibold transition hover:border-terracotta hover:text-terracotta">Close</button>
-        </form>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <!-- Not every title is listed on Shopee, so this is hidden per book
+               rather than rendered as a dead control. -->
+          <a
+            id="dialog-buy"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-full bg-terracotta-dark px-6 py-2 text-sm font-semibold text-cream transition hover:bg-terracotta"
+            >Buy on Shopee</a
+          >
+          <form method="dialog">
+            <button class="rounded-full border border-ink/20 px-6 py-2 text-sm font-semibold transition hover:border-terracotta hover:text-terracotta">Close</button>
+          </form>
+        </div>
       </div>
     </div>
   </dialog>
@@ -160,6 +175,8 @@ const tabs = [
     const dTitle = document.getElementById('dialog-title')!;
     const dAwards = document.getElementById('dialog-awards')!;
     const dTrans = document.getElementById('dialog-translations')!;
+    const dBlurb = document.getElementById('dialog-blurb')!;
+    const dBuy = document.getElementById('dialog-buy') as HTMLAnchorElement;
 
     // The element that should regain focus once the dialog closes — the
     // trigger button belonging to whichever card was opened.
@@ -176,6 +193,22 @@ const tabs = [
       dCover.alt = img ? `Cover of ${card.dataset.title}` : '';
       dCover.style.display = img ? '' : 'none';
       dTitle.textContent = card.dataset.title ?? '';
+
+      const blurb = card.dataset.blurb ?? '';
+      dBlurb.textContent = blurb;
+      dBlurb.style.display = blurb ? '' : 'none';
+
+      const shopee = card.dataset.shopee ?? '';
+      if (shopee) {
+        dBuy.href = shopee;
+        dBuy.style.display = '';
+        dBuy.setAttribute('aria-label', `Buy ${card.dataset.title} on Shopee`);
+      } else {
+        dBuy.removeAttribute('href');
+        dBuy.removeAttribute('aria-label');
+        dBuy.style.display = 'none';
+      }
+
       dAwards.innerHTML = '';
       // Same drawn medal as BookCard's award marker, kept in sync by hand.
       const medal =

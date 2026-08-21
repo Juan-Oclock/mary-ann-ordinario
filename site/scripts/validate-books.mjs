@@ -19,6 +19,12 @@ for (const b of books) {
     errors.push(`bad category on ${b.id}: ${b.category}`);
   if (b.cover !== null && !coverFiles.has(b.cover))
     errors.push(`cover file not found for ${b.id}: ${b.cover}`);
+  // Both are optional, but an empty or whitespace-only value would render as a
+  // blank paragraph / dead button rather than being skipped. Catch it here.
+  if ('blurb' in b && (typeof b.blurb !== 'string' || !b.blurb.trim()))
+    errors.push(`empty blurb on ${b.id}`);
+  if ('shopeeUrl' in b && !/^https:\/\/(s\.)?shopee\.ph\//.test(b.shopeeUrl ?? ''))
+    errors.push(`bad shopeeUrl on ${b.id}: ${b.shopeeUrl}`);
 }
 const referenced = new Set(books.map((b) => b.cover).filter(Boolean));
 for (const f of coverFiles) if (!referenced.has(f)) errors.push(`orphan cover file: ${f}`);
@@ -40,4 +46,12 @@ console.log(
 console.log(
   `  covers: ${books.filter((b) => b.cover !== null).length} present, ` +
     `${books.filter((b) => b.cover === null).length} pending`
+);
+console.log(
+  `  blurbs: ${books.filter((b) => b.blurb).length} present, ` +
+    `${books.filter((b) => !b.blurb).length} pending`
+);
+console.log(
+  `  shopee: ${books.filter((b) => b.shopeeUrl).length} linked, ` +
+    `${books.filter((b) => !b.shopeeUrl).length} unlinked`
 );
