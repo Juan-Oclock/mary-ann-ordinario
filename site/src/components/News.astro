@@ -6,6 +6,7 @@ import malongStage from '../assets/photos/malong-stage-play.jpg';
 // Article screenshot from New Update.docx — the headline exists only as pixels
 // here, which is why the listing was missed on the first pass through the doc.
 import noteworthyBooks from '../assets/photos/noteworthy-filipino-books-2024.png';
+import whaleSpotlight from '../assets/photos/a-whale-in-prison-spotlight.jpg';
 
 const items = [
   {
@@ -31,6 +32,8 @@ const items = [
     date: '2026',
     title: 'A Whale in Prison staged for 400 students in Bangkok',
     body: 'The Thai edition by Praphansarn Publishing came to life in a stage adaptation performed for 400 students across Thailand, onsite and online.',
+    image: whaleSpotlight,
+    imageAlt: "The National Book Development Board's spotlight post on the stage adaptation of A Whale in Prison in Thailand",
   },
   {
     date: 'November 2025',
@@ -112,7 +115,11 @@ const archived = items.length - VISIBLE;
               >
                 <div
                   class:list={[
-                    'relative mt-5 max-w-sm bg-ivory p-2 pb-3 text-left shadow-md ring-1 ring-ink/10 md:mt-0',
+                    'relative mt-5 bg-ivory p-2 pb-3 text-left shadow-md ring-1 ring-ink/10 md:mt-0',
+                    // A portrait frame at the landscape width would stand ~480px
+                    // tall — nearly double its neighbours — so cap it narrower
+                    // and let every entry occupy roughly the same block.
+                    n.image.height > n.image.width ? 'max-w-[15rem]' : 'max-w-sm',
                     // Mirror the tilt across the spine so the two leaves lean
                     // away from each other instead of marching in parallel.
                     left ? 'rotate-1' : 'rotate-1 md:-rotate-1',
